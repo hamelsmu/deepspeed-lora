@@ -13,6 +13,9 @@ for ds_stg in 0 2 3; do
             if [ "$ds_stg" -lt 2 ] || [ "$n_gpu" -lt 2 ] || [ "$seq_len" -ge 2048 ]; then
               continue
             fi
+            if [ "$gc" = "False" ] && ([ "$n_gpu" -ne 3 ] || [ "$ds_stg" -lt 3 ]); then
+              continue
+            fi
           fi
 
           # Special exceptions
