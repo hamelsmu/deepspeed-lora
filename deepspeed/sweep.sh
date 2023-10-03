@@ -4,7 +4,7 @@
 set +e
 
 # Loop through each option
-for ds_stg in 0 3; do
+for ds_stg in 0 1 2 3; do
   for n_gpu in 1 2 3; do
     for gc in True False; do
       for seq_len in 64 256 512 1024 2048; do
@@ -20,7 +20,7 @@ for ds_stg in 0 3; do
             # Execute the command
             echo "Running with ds_stg=$ds_stg n_gpu=$n_gpu gc=$gc seq_len=$seq_len bs=$bs model_sz=$model_sz"
             python run_bench.py --ds_stg $ds_stg --n_gpu $n_gpu --gc $gc --seq_len $seq_len --bs $bs --model_sz $model_sz
-            # sync peak gpu mem usage with wandb
+            # sync peak gpu mem during run with wandb
             python sync_mem.py
           done
         done
