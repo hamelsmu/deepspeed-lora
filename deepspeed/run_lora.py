@@ -33,19 +33,6 @@ def serialize_gpu_mem(run_id, run_path, proc_id):
     with open(filename, 'w') as f: json.dump(memory_stats, f)
 
 
-def read_and_sync_to_wandb(wandb_user, wandb_proj, run_id):
-    dpth = Path(f"mem_data/{run_id}")
-    api = wandb.Api()
-    run = api.run(f"{wandb_user}/{wandb_proj}/{run_id}")
-    for f in dpth.ls():
-        if f.name.endswith(".json"):
-            with open(f, 'r') as f:
-                memory_stats = json.load(f)
-                gpu = memory_stats['gpu']
-                mem = memory_stats['mem']
-                run.summary[f"gpu_{gpu}_mem"] =  mem
-    run.summary.update()
-
 # Define and parse arguments.
 @dataclass
 class ScriptArguments:
