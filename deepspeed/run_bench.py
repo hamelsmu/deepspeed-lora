@@ -11,7 +11,7 @@ import os, subprocess
 # %% run_bench.ipynb 2
 @call_parse
 def gen_cli(debug:Param('Print command instead of running it', store_true),
-            ds_stg:Param('The deepspeed stage', int, choices=[0,3])=3,
+            ds_stg:Param('The deepspeed stage', int, choices=[0,1,2,3])=3,
             n_gpu:Param('number of GPUs', int, choices=[1,2,3])=1,
             gc:Param('Toggle gradient checkpointing', choices=['True', 'False'])='True',  
             seq_len:Param('Sequence length', int, choices=[64, 256, 512, 1024, 2048])=256,
