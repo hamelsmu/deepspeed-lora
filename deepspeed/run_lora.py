@@ -88,38 +88,6 @@ def training_function(script_args:ScriptArguments, training_args:TrainingArgumen
         unwrapped_model.save_pretrained(training_args.output_dir, state_dict=state_dict)
     trainer.accelerator.wait_for_everyone()
 
-    # TODO: add merge adapters
-    # Save everything else on main process
-    if trainer.args.process_index == 0:
-        if script_args.merge_adapters:
-            # merge adapter weights with base model and save
-            # save int 4 model
-            trainer.model.save_pretrained(training_args.output_dir, safe_serialization=False)
-            # clear memory
-            del model
-            del trainer
-            torch.cuda.empty_cache()
-
-            from peft import AutoPeftModelForCausalLM
-
-            # load PEFT model in fp16
-            model = AutoPeftModelForCausalLM.from_pretrained(
-                training_args.output_dir,
-                low_cpu_mem_usage=True,
-                torch_dtype=torch.float16,
-            )  
-            # Merge LoRA and base model and save
-            model = model.merge_and_unload()        
-            model.save_pretrained(
-                training_args.output_dir, safe_serialization=True, max_shard_size="8GB"
-            )
-        else:
-            trainer.model.save_pretrained(
-                training_args.output_dir, safe_serialization=True
-            )
-
-        # save tokenizer 
-        tokenizer.save_pretrained(training_args.output_dir)
 
 
 def main():

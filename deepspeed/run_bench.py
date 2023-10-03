@@ -36,6 +36,7 @@ def gen_cli(debug:Param('Print command instead of running it', store_true),
   --num_train_epochs {n_epochs} \
   --per_device_train_batch_size {bs} \
   --learning_rate 4e-3 \
+  --save_strategy no \
   --gradient_checkpointing {gc} \
   --bf16 True \
   --tf32 True \
