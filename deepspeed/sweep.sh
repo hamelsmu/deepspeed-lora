@@ -18,7 +18,7 @@ for ds_stg in 0 3; do
 
           for bs in "${bs_list[@]}"; do
             # Execute the command
-            echo "Running with ds_stg=$ds_stg n_gpu=$n_gpu gc=$gc seq_len=$seq_len bs=$bs"
+            echo "Running with ds_stg=$ds_stg n_gpu=$n_gpu gc=$gc seq_len=$seq_len bs=$bs model_sz=$model_sz"
             python run_bench.py --ds_stg $ds_stg --n_gpu $n_gpu --gc $gc --seq_len $seq_len --bs $bs --model_sz $model_sz
             # sync gpu mem usage stats to wandb runs
             python sync_mem.py
