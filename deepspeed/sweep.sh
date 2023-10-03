@@ -10,11 +10,11 @@ for ds_stg in 0 2 3; do
       for seq_len in 64 512 2048; do
         for model_sz in 7 13 34; do
           # Conditional batch sizes based on sequence length
-          if [ $seq_len -e 64 ]; then
+          if [ "$seq_len" -eq 64 ]; then
             bs_list=(1 8 64 200)
-          elif [ $seq_len -e 512 ]; then
+          elif [ "$seq_len" -eq 512 ]; then
             bs_list=(1 4 8 32)
-          elif [ $seq_len -e 2048 ]; then
+          elif [ "$seq_len" -eq 2048 ]; then
             bs_list=(1 4 8)
           fi
           for bs in "${bs_list[@]}"; do
