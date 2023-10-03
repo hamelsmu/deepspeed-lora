@@ -1,0 +1,9 @@
+__pycache__
+.ipynb_checkpoints
+codellama
+dolly-*
+meta-llama
+wandb
+NousResearch/
+pankajmathur/
+data_*
