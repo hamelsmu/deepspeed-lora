@@ -8,6 +8,8 @@ for ds_stg in 0 2 3; do
     for gc in True False; do
       for seq_len in 64 512 2048; do
         for model_sz in 7 13 34; do
+          if [ "$model_sz" -eq 34 ] && [ "$ds_stg" -le 2 ]; then continue; fi
+          if [ "$n_gpu" -eq 1 ] && [ "$ds_stg" -gt 0 ]; then continue; fi
           if [ "$model_sz" -eq 34 ] && [ "$n_gpu" -lt 2 ]; then continue; fi
           if [ "$model_sz" -eq 34 ] && [ "$seq_len" -ge 2048 ]; then continue; fi
           if [ "$gc" = "False" ] && [ "$n_gpu" -eq 1 ] && [ "$model_sz" -ne 7 ]; then continue; fi
