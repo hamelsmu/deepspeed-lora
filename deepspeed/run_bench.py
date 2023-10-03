@@ -41,7 +41,7 @@ def gen_cli(debug:Param('Print command instead of running it', store_true),
   --tf32 True \
   --lr_scheduler_type constant_with_warmup \
   --logging_steps 25 \
-  --report_to "wandb" \
+  --report_to wandb \
   --deepspeed z{ds_stg}.json"""
 
     full_cmd = env_str + ' ' + cmd
