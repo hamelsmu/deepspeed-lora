@@ -54,4 +54,4 @@ def gen_cli(debug:Param('Print command instead of running it', store_true),
         for v in env_values:
             env_vars[v[0]] = v[1]
         print(f"running command:\n{full_cmd}")
-        return subprocess.run(cmd.split(), env=env_vars)
+        return subprocess.run(cmd.split(), env=env_vars, check=True)
