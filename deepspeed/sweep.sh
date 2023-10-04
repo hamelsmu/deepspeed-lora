@@ -21,7 +21,6 @@ for ds_stg in 0 2 3; do
           # Special exceptions
           if [ "$ds_stg" -gt 0 ] && [ "$n_gpu" -eq 1 ]; then continue; fi
           if [ "$gc" = "False" ] && [ "$n_gpu" -eq 1 ] && [ "$model_sz" -ne 7 ]; then continue; fi
-          if [ "$gc" = "False" ] && [ "$n_gpu" -eq 2 ] && [ "$model_sz" -eq 34 ]; then continue; fi
 
           bs_list=()
           if [ "$seq_len" -eq 64 ]; then bs_list=(1 8 64 200)
