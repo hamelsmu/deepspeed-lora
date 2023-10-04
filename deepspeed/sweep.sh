@@ -32,6 +32,11 @@ for ds_stg in 0 2 3; do
             if [ "$bs" -ge 32 ] && ([ "$model_sz" -eq 34 ] || [ "$seq_len" -eq 2048 ]); then continue; fi
             echo "Running with ds_stg=$ds_stg n_gpu=$n_gpu gc=$gc seq_len=$seq_len bs=$bs model_sz=$model_sz"
             python run_bench.py --ds_stg $ds_stg --n_gpu $n_gpu --gc $gc --seq_len $seq_len --bs $bs --model_sz $model_sz
+            # Check if the last command (run_bench.py) was successful
+            if [ $? -ne 0 ]; then
+              echo "Error encountered for bs=$bs. Skipping higher batch sizes."
+              break  # Break out of the bs loop
+            fi
             python sync_mem.py
           done
         done

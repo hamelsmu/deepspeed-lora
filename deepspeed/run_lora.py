@@ -72,7 +72,6 @@ def training_function(script_args:ScriptArguments, training_args:TrainingArgumen
 
     # Create trainer and add callbacks
     trainer = Trainer(model=model, args=training_args, train_dataset=dataset)
-    trainer.accelerator.print(f"{trainer.model}")
     trainer.model.print_trainable_parameters()
     trainer.add_callback(SaveDeepSpeedPeftModelCallback(trainer, save_steps=training_args.save_steps))
     
