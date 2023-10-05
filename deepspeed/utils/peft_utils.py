@@ -8,6 +8,7 @@ from transformers import (
     AutoTokenizer,
     TrainingArguments,
 )
+from transformers import BitsAndBytesConfig
 from utils.falcon_patch import replace_attn_with_flash_attn as replace_falcon_attn_with_flash_attn
 from utils.llama_patch import replace_attn_with_flash_attn as replace_llama_attn_with_flash_attn
 
@@ -40,8 +41,18 @@ def create_and_prepare_model(model_id:str, training_args:TrainingArguments, scri
         replace_falcon_attn_with_flash_attn()
         replace_llama_attn_with_flash_attn()
 
+    if script_args.quant4:
+        bnb_config = BitsAndBytesConfig(load_in_4bit=True,
+                                        bnb_4bit_use_double_quant=True,
+                                        bnb_4bit_quant_type="nf4",
+                                        bnb_4bit_compute_dtype=torch.bfloat16)
+        print("4bit quantization enabled")
+    
+    else: bnb_config = None
+
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
+        quantization_config=bnb_config, 
         use_cache=not training_args.gradient_checkpointing,
     )
     print("model loaded")

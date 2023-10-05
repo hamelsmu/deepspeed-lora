@@ -18,13 +18,13 @@ def gen_cli(debug:Param('Print command instead of running it', store_true),
             bs:Param('Batch size', int, choices=[1,3,4,6,8,16,32,64,100,200])=1,
             model_sz:Param('Model size in Billions', int, choices=[3, 7, 13, 34])=7,
             n_epochs:Param('# of epochs', int) = 1,
-           ):
+            qaunt4:Param('Enable 4bit quantization', choices=['True', 'False'])='False'):
     "Generate Training CLI Command"
 
     model_id = {3:'pankajmathur/orca_mini_3b', 7:'NousResearch/Llama-2-7b-hf', 13: 'NousResearch/Llama-2-13b-hf', 34: 'NousResearch/CodeLlama-34b-hf'}[model_sz]
     nr = randint(10000000,99999999)
     env_values = [('WANDB_ENTITY', 'hamelsmu'), ('WANDB_PROJECT', 'deepspeed-data'),
-                  ('WANDB_RUN_ID', f'z{ds_stg}-n_gpu{n_gpu}-gc{gc}-seq_len{seq_len}-bs{bs}-model_sz{model_sz}-{nr}')]
+                  ('WANDB_RUN_ID', f'z{ds_stg}-n_gpu{n_gpu}-gc{gc}-seq_len{seq_len}-bs{bs}-model_sz{model_sz}-quant4{qaunt4}-{nr}')]
     env_str = ''
     for v in env_values:
         env_str  += f'{v[0]}={v[1]} '
@@ -32,6 +32,7 @@ def gen_cli(debug:Param('Print command instead of running it', store_true),
     cmd = f"""torchrun --nproc_per_node {n_gpu} run_lora.py \
   --model_id {model_id} \
   --dataset_path data_{seq_len} \
+  --quant4 {qaunt4} \
   --output_dir {model_id}-fa \
   --num_train_epochs {n_epochs} \
   --per_device_train_batch_size {bs} \

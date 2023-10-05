@@ -48,6 +48,7 @@ class ScriptArguments:
         default="timdettmers/openassistant-guanaco",
         metadata={"help": "The preference dataset to use."},
     )
+    quant4: Optional[bool] = field(default=False)
     lora_alpha: Optional[int] = field(default=16)
     lora_dropout: Optional[float] = field(default=0.1)
     lora_r: Optional[int] = field(default=64)
